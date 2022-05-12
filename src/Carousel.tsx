@@ -47,6 +47,7 @@ const Carousel = React.forwardRef<ICarouselInstance, TCarouselProps<any>>(
             customAnimation,
             defaultIndex,
             refreshing,
+            allowRefreshing,
         } = props;
 
         const commonVariables = useCommonVariables(props);
@@ -219,7 +220,7 @@ const Carousel = React.forwardRef<ICarouselInstance, TCarouselProps<any>>(
                         onScrollEnd={scrollViewGestureOnScrollEnd}
                         onTouchBegin={scrollViewGestureOnTouchBegin}
                         onTouchEnd={scrollViewGestureOnTouchEnd}
-                        getCurrentIndex={() => getCurrentIndex()}
+                        allowRefreshing={allowRefreshing || false}
                     >
                         <Animated.View
                             key={mode}
