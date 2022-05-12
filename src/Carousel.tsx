@@ -126,9 +126,7 @@ const Carousel = React.forwardRef<ICarouselInstance, TCarouselProps<any>>(
             onScrollBegin?.();
         }, [onScrollBegin, pauseAutoPlay]);
 
-        const scrollViewGestureOnRefresh = React.useCallback(() => {
-            onRefresh?.();
-        }, [onRefresh]);
+        const scrollViewGestureOnRefresh = React.useCallback(() => onRefresh?.(), [onRefresh]);
 
         const scrollViewGestureOnScrollEnd = React.useCallback(() => {
             startAutoPlay();
@@ -221,6 +219,7 @@ const Carousel = React.forwardRef<ICarouselInstance, TCarouselProps<any>>(
                         onScrollEnd={scrollViewGestureOnScrollEnd}
                         onTouchBegin={scrollViewGestureOnTouchBegin}
                         onTouchEnd={scrollViewGestureOnTouchEnd}
+                        getCurrentIndex={() => getCurrentIndex()}
                     >
                         <Animated.View
                             key={mode}
