@@ -226,7 +226,7 @@ const IScrollViewGesture: React.FC<Props> = (props) => {
                 }
                 
                 if (e?.translationY > 50 && !refreshing && allowRefreshing) {
-                    runOnJS(onRefresh?.())()
+                    runOnJS(onRefresh)()
                 }
 
                 touching.value = true;
