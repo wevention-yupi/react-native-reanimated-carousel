@@ -42,12 +42,9 @@ const Carousel = React.forwardRef<ICarouselInstance, TCarouselProps<any>>(
             onScrollEnd,
             onSnapToItem,
             onScrollBegin,
-            onRefresh,
             onProgressChange,
             customAnimation,
             defaultIndex,
-            refreshing,
-            allowRefreshing,
         } = props;
 
         const commonVariables = useCommonVariables(props);
@@ -126,8 +123,6 @@ const Carousel = React.forwardRef<ICarouselInstance, TCarouselProps<any>>(
             pauseAutoPlay();
             onScrollBegin?.();
         }, [onScrollBegin, pauseAutoPlay]);
-
-        const scrollViewGestureOnRefresh = React.useCallback(() => onRefresh?.(), [onRefresh]);
 
         const scrollViewGestureOnScrollEnd = React.useCallback(() => {
             startAutoPlay();
@@ -214,13 +209,10 @@ const Carousel = React.forwardRef<ICarouselInstance, TCarouselProps<any>>(
                     <ScrollViewGesture
                         size={size}
                         translation={handlerOffsetX}
-                        refreshing={refreshing}
                         onScrollBegin={scrollViewGestureOnScrollBegin}
-                        onRefresh={scrollViewGestureOnRefresh}
                         onScrollEnd={scrollViewGestureOnScrollEnd}
                         onTouchBegin={scrollViewGestureOnTouchBegin}
                         onTouchEnd={scrollViewGestureOnTouchEnd}
-                        allowRefreshing={allowRefreshing || false}
                     >
                         <Animated.View
                             key={mode}

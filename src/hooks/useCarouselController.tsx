@@ -52,7 +52,7 @@ export function useCarouselController(options: IOpts): ICarouselController {
         () => ({
             length: data.length,
             disable: !data.length,
-            originalLength: data.length,
+            originalLength: data.length, 
         }),
         [data]
     );

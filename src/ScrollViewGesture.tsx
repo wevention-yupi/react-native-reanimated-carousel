@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import {
     PanGestureHandler,
@@ -64,6 +64,10 @@ const IScrollViewGesture: React.FC<Props> = (props) => {
         onTouchBegin,
         onTouchEnd,
     } = props;
+
+    useEffect(() => {
+        console.log('-=-= onRefresh useEffect', { onRefresh, refreshing, allowRefreshing })
+    }, [onRefresh, refreshing, allowRefreshing])
 
     const maxPage = data.length;
     const isHorizontal = useDerivedValue(() => !vertical, [vertical]);
@@ -197,6 +201,18 @@ const IScrollViewGesture: React.FC<Props> = (props) => {
         _withSpring,
     ]);
 
+    const startRefresh = React.useCallback(
+        () => {
+            'worklet';
+            if (onRefresh && !refreshing && allowRefreshing) {
+                cancelAnimation(translation)
+                console.log('-==-0 startRefresh', { onRefresh, refreshing, allowRefreshing })
+                runOnJS(onRefresh)()
+            }
+        },
+        [onRefresh, refreshing, allowRefreshing]
+    )
+
     useAnimatedReaction(
         () => translation.value,
         () => {
@@ -224,9 +240,9 @@ const IScrollViewGesture: React.FC<Props> = (props) => {
                     ctx.validStart = false;
                     cancelAnimation(translation);
                 }
-                
-                if (e?.translationY > 50 && !refreshing && allowRefreshing) {
-                    if(onRefresh) { runOnJS(onRefresh)() }
+
+                if (e?.translationY > 50) {
+                    startRefresh()
                 }
 
                 touching.value = true;
