@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import type { ViewStyle } from 'react-native';
 import Animated, {
     AnimatedStyleProp,
@@ -40,7 +40,6 @@ export const BaseLayout: React.FC<{
             customConfig,
             mode,
             modeConfig,
-            allowRefreshing,
         },
     } = context;
     const size = vertical ? height : width;
@@ -53,8 +52,6 @@ export const BaseLayout: React.FC<{
         loop,
         ...(typeof customConfig === 'function' ? customConfig() : {}),
     };
-
-    useEffect(() => { console.log('-=-= allowRefreshing 123123123', allowRefreshing) }, [allowRefreshing])
 
     if (mode === 'horizontal-stack') {
         const { snapDirection, showLength } = modeConfig as ILayoutConfig;
