@@ -84,7 +84,7 @@ const Carousel = React.forwardRef<ICarouselInstance, TCarouselProps<any>>(
             duration: scrollAnimationDuration,
         });
 
-        const { to, next, prev, scrollTo, getSharedIndex, getCurrentIndex } =
+        const { next, prev, scrollTo, getSharedIndex, getCurrentIndex } =
             carouselController;
 
         const { start: startAutoPlay, pause: pauseAutoPlay } = useAutoPlay({
@@ -97,13 +97,27 @@ const Carousel = React.forwardRef<ICarouselInstance, TCarouselProps<any>>(
         const _onScrollEnd = React.useCallback(() => {
             const _sharedIndex = Math.round(getSharedIndex());
 
+            const realIndex = computedRealIndexWithAutoFillData({
+                index: _sharedIndex,
+                dataLength: rawData.length,
+                loop,
+                autoFillData,
+            });
+
             if (onSnapToItem) {
-                onSnapToItem(_sharedIndex);
+                onSnapToItem(realIndex);
             }
             if (onScrollEnd) {
-                onScrollEnd(_sharedIndex);
+                onScrollEnd(realIndex);
             }
-        }, [onSnapToItem, onScrollEnd, getSharedIndex]);
+        }, [
+            loop,
+            autoFillData,
+            rawData.length,
+            getSharedIndex,
+            onSnapToItem,
+            onScrollEnd,
+        ]);
 
         const scrollViewGestureOnScrollBegin = React.useCallback(() => {
             pauseAutoPlay();
@@ -123,23 +137,15 @@ const Carousel = React.forwardRef<ICarouselInstance, TCarouselProps<any>>(
             startAutoPlay,
         ]);
 
-        const goToIndex = React.useCallback(
-            (i: number, animated?: boolean) => {
-                to(i, animated);
-            },
-            [to]
-        );
-
         React.useImperativeHandle(
             ref,
             () => ({
                 next,
                 prev,
                 getCurrentIndex,
-                goToIndex,
                 scrollTo,
             }),
-            [getCurrentIndex, goToIndex, next, prev, scrollTo]
+            [getCurrentIndex, next, prev, scrollTo]
         );
 
         const visibleRanges = useVisibleRanges({

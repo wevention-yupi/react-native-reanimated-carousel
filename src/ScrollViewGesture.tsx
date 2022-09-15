@@ -209,7 +209,7 @@ const IScrollViewGesture: React.FC<Props> = (props) => {
         },
         [onRefresh, refreshing, allowRefreshing]
     )
-
+    
     const callOnScrollAfterEnd = React.useCallback(
         (y) => {
             'worklet';
@@ -219,7 +219,7 @@ const IScrollViewGesture: React.FC<Props> = (props) => {
         },
         [onScrollAfterEnd]
     )
-
+            
     useAnimatedReaction(
         () => translation.value,
         () => {
@@ -240,7 +240,7 @@ const IScrollViewGesture: React.FC<Props> = (props) => {
                 ctx.validStart = true;
                 onScrollBegin && runOnJS(onScrollBegin)();
                 ctx.max = (maxPage - 1) * size;
-                ctx.panOffset = translation.value;
+                ctx.panOffset = translation.value; 
             },
             onActive: (e, ctx) => {
                 if (ctx.validStart) {
