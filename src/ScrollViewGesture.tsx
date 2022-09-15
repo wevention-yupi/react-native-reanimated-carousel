@@ -33,6 +33,7 @@ interface Props {
     onScrollEnd?: () => void;
     onTouchBegin?: () => void;
     onRefresh?: () => void;
+    onScrollAfterEnd?: (y: number) => void;
     onTouchEnd?: () => void;
     style?: StyleProp<ViewStyle>;
     translation: Animated.SharedValue<number>;
@@ -51,6 +52,7 @@ const IScrollViewGesture: React.FC<Props> = (props) => {
             withAnimation,
             enabled,
             onRefresh,
+            onScrollAfterEnd,
             refreshing,
             allowRefreshing
         },
@@ -207,7 +209,17 @@ const IScrollViewGesture: React.FC<Props> = (props) => {
         },
         [onRefresh, refreshing, allowRefreshing]
     )
-
+    
+    const callOnScrollAfterEnd = React.useCallback(
+        (y) => {
+            'worklet';
+            if (onScrollAfterEnd) {
+                runOnJS(onScrollAfterEnd)(y)
+            }
+        },
+        [onScrollAfterEnd]
+    )
+            
     useAnimatedReaction(
         () => translation.value,
         () => {
@@ -239,6 +251,8 @@ const IScrollViewGesture: React.FC<Props> = (props) => {
                 if (e?.translationY > 50) {
                     startRefresh()
                 }
+
+                callOnScrollAfterEnd(e?.translationY)
 
                 touching.value = true;
                 const { translationX, translationY } = e;

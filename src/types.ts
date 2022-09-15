@@ -184,6 +184,10 @@ export type TCarouselProps<T = any> = {
      */
     onRefresh?: () => void;
     /**
+     * On scroll begin
+     */
+    onScrollAfterEnd?: (y: number) => void;
+    /**
      * On scroll end
      */
     onScrollEnd?: (index: number) => void;
