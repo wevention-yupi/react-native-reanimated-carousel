@@ -39,6 +39,7 @@ export function useInitProps<T>(
         width: _width,
         height: _height,
         onRefresh = () => {},
+        onScrollAfterEnd = () => {},
         refreshing = false,
         allowRefreshing = false
     } = props;
@@ -82,6 +83,7 @@ export function useInitProps<T>(
         width,
         height,
         onRefresh,
+        onScrollAfterEnd,
         refreshing,
         allowRefreshing
     };
