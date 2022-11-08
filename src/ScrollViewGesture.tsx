@@ -248,12 +248,6 @@ const IScrollViewGesture: React.FC<Props> = (props) => {
                     cancelAnimation(translation);
                 }
 
-                const origin = translation.value;
-                const velocity = scrollEndVelocity.value;
-                const nextPage = Math.round((origin + velocity * 0.4) / size) * size;
-
-                console.log('-=-= onActive', { e, ctx, velocity, nextPage })
-
                 if (e?.translationY > 50 && e?.translationY > -5 && e?.translationY < 5) {
                     startRefresh()
                 }
