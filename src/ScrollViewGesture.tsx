@@ -248,6 +248,8 @@ const IScrollViewGesture: React.FC<Props> = (props) => {
                     cancelAnimation(translation);
                 }
 
+                console.log('-=-= onActive', { e, ctx })
+
                 if (e?.translationY > 50 && e?.translationY > -5 && e?.translationY < 5) {
                     startRefresh()
                 }
